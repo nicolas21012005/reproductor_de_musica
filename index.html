@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reproductor de Música</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body id="body">
+
+    <div id="player_contenedor">
+
+        <section id="menu_superior">
+            <button id="btn_repetir">🔁</button>
+            <button id="btn_configuracion">⚙</button>
+            <button id="btn_texto">🅰</button>
+            <button id="btn_temporizador">⏰</button>
+            <button id="btn_compartir">🔗</button>
+        </section>
+
+        <section id="imagen_cancion">
+            <img id="portada" src=""" alt=" Portada del álbum">
+        </section>
+
+        <section id="info_cancion">
+            <h1 id="titulo">With The Clouds</h1>
+            <h2 id="artista">Emma Volka</h2>
+        </section>
+
+        <section id="barra_progreso">
+            <span id="inicio">00:00</span>
+            <input type="range" id="progreso" min="0" max="100" value="20">
+            <span id="final">3:44</span>
+        </section>
+
+        <section id="controles">
+            <button id="btn_repetir2">🔁</button>
+            <button id="btn_atras">⏮</button>
+            <button id="btn_play">⏯</button>
+            <button id="btn_adelante">⏭</button>
+        </section>
+
+    </div>
+    <script src="app.js"></script>
+</body>
+
+</html>
