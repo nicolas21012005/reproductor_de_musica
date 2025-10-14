@@ -12,13 +12,7 @@
 
     <div id="player_contenedor">
 
-        <section id="menu_superior">
-            <button id="btn_repetir">🔁</button>
-            <button id="btn_configuracion">⚙</button>
-            <button id="btn_texto">🅰</button>
-            <button id="btn_temporizador">⏰</button>
-            <button id="btn_compartir">🔗</button>
-        </section>
+
 
         <section id="imagen_cancion">
             <img id="portada" src=""" alt=" Portada del álbum">
@@ -36,13 +30,23 @@
         </section>
 
         <section id="controles">
-            <button id="btn_repetir2">🔁</button>
             <button id="btn_atras">⏮</button>
             <button id="btn_play">⏯</button>
             <button id="btn_adelante">⏭</button>
         </section>
-
+        <button id="btn_abrir_playlist">⬆️</button>
     </div>
+
+    <div id="modal_playlist">
+        <div id="modal_header">
+            <h2>🎵 Lista de Reproducción</h2>
+            <button id="btn_cerrar_modal">⬇️</button>
+        </div>
+        <div id="lista_canciones">
+            <!-- Las canciones se generarán dinámicamente aquí -->
+        </div>
+    </div>
+
     <script src="app.js"></script>
 </body>
 

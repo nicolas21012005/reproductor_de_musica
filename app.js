@@ -13,10 +13,16 @@ const btnAtras = document.getElementById('btn_atras');
 const btnPlay = document.getElementById('btn_play');
 const btnAdelante = document.getElementById('btn_adelante');
 const contenedorPlayer = document.getElementById('player_contenedor')
+const btnAbrirPlaylist = document.getElementById('btn_abrir_playlist');
+const modalPlaylist = document.getElementById('modal_playlist');
+const btnCerrarModal = document.getElementById('btn_cerrar_modal');
+const listaCanciones = document.getElementById('lista_canciones');
+
+
 let indiceActual = 0
 let audio = new Audio()
 let canciones = []
-let isPlaying = false;
+let isPlaying = true;
 
 document.addEventListener('DOMContentLoaded', () => {
     fetch('canciones.json')
@@ -26,6 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // aqui van el llamado a las funciones de cada funcioanlidad que se van a crear proximamente
             mostrarCancion(indiceActual)
             eventsToAudio();
+            generateSongsList();
         }).catch(error => {
             console.log('Error al cargar las canciones: ', error)
         })
@@ -104,21 +111,89 @@ function nextSong() {
     }
     mostrarCancion(indiceActual)
 }
-function previousSong(params) {
+function previousSong() {
     if (indiceActual === 0) {
-        indiceActual = canciones.lengt - 1
+        indiceActual = canciones.length - 1
     } else {
         indiceActual--
     } mostrarCancion(indiceActual)
 }
 
+function generateSongsList() {
+    listaCanciones.innerHTML = '';
+
+    canciones.forEach((cancion, index) => {
+        const cancionItem = document.createElement('div');
+        cancionItem.className = 'cancion_item';
+        cancionItem.dataset.index = index;
+
+        cancionItem.innerHTML = `<img src="${cancion.caratula}" alt="${cancion.nombre}" class="cancion_miniatura">
+            <div class="cancion_info">
+                <p class="cancion_nombre">${cancion.nombre}</p>
+                <div class="cancion_detalles">
+                    <p class="cancion_artista">${cancion.artista}</p>
+                    <span class="cancion_duracion">• ${cancion.duracion}</span>
+                </div>
+            </div>
+            <button class="btn_play_modal" data-index="${index}">▶️</button>`;
+
+        listaCanciones.appendChild(cancionItem);
+    })
+    const btnsPlayModal = document.querySelectorAll('.btn_play_modal')
+    btnsPlayModal.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const index = parseInt(btn.dataset.index);
+            playModalSongs(index)
+        })
+    }
+    )
+    updateSongPlaying();
+}
+
+function playModalSongs(index) {
+    indiceActual = index;
+    mostrarCancion(indiceActual);
+    playAudio();
+}
+function updateSongPlaying() {
+    const songsItems = document.querySelectorAll('.cancion_item');
+    songsItems.forEach((item, index) => {
+        if (index === indiceActual) {
+            item.classList.add('activa');
+        } else {
+            item.classList.remove('activa')
+        }
+    })
+}
+function openModal() {
+    modalPlaylist.classList.add('activo');
+}
+function closeModal() {
+    modalPlaylist.classList.remove('activo')
+}
 // Eventos para que se ejecute apenas se le da click a los botones
 btnPlay.addEventListener('click', togglePlayPause);
 btnAdelante.addEventListener('click', nextSong);
 btnAtras.addEventListener('click', previousSong);
-
 // funcion para permitir que se adelante o atrase la cancion con la barra de navegacion
 songProgress.addEventListener('input', () => {
     const time = (songProgress.value / 100) * audio.duration;
     audio.currentTime = time
+})
+songProgress.addEventListener('change', () => {
+    const time = (songProgress.value / 100) * audio.duration;
+    audio.currentTime = time;
+})
+
+
+
+// Eventos del modal
+btnAbrirPlaylist.addEventListener('click', openModal)
+btnCerrarModal.addEventListener('click', closeModal)
+
+modalPlaylist.addEventListener('click', (e) => {
+    if (e.target === modalPlaylist) {
+        closeModal();
+    }
 })
